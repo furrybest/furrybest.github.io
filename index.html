@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>exDesktop Linux — under development</title>
+  <meta name="description" content="exDesktop Linux — the unofficial exteraGram client for PC (Linux port). In development, no releases yet. Follow progress on GitHub and Telegram.">
+  <meta name="theme-color" content="#EA5846">
+  <link rel="icon" type="image/svg+xml" href="https://exteradesktop.xyz/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="exDesktop Linux">
+  <meta property="og:title" content="exDesktop Linux — under development">
+  <meta property="og:description" content="The unofficial exDesktop (Linux Port). In development — no releases yet. News lands on GitHub and Telegram first.">
+  <meta property="og:url" content="https://exteradesktop.xyz">
+  <meta name="twitter:card" content="summary">
+  <style>
+    :root {
+      --brand: #ea5846;
+      --brand-dark: #d8483a;
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, .6);
+      --faint: rgba(255, 255, 255, .38);
+      --line: rgba(255, 255, 255, .13);
+      --surface: rgba(255, 255, 255, .045);
+      --surface-2: rgba(255, 255, 255, .09);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      padding: 48px 20px;
+      text-align: center;
+      min-height: 100svh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection { background: rgba(234, 88, 70, .35); color: #fff; }
+    a { color: inherit; text-decoration: none; }
+
+    .logo { width: 76px; height: 76px; }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 56px);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      line-height: 1.05;
+    }
+
+    .tagline {
+      max-width: 480px;
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-top: -10px;
+    }
+
+    .tagline b { color: var(--text); font-weight: 600; }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 50px;
+      padding: 0 24px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 15px;
+      white-space: nowrap;
+      letter-spacing: normal;
+      text-shadow: none;
+      transition: background .3s, color .3s, transform .35s var(--ease-out);
+      will-change: transform;
+    }
+
+    .btn:active { transform: scale(.97); }
+
+    .btn.magnetic-live {
+      transition: background .3s, color .3s;
+    }
+
+    .btn svg { width: 17px; height: 17px; flex: none; }
+
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-dark); }
+
+    .btn-ghost {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+    .btn-ghost:hover {
+      background: var(--surface-2);
+      border-color: rgba(255, 255, 255, .28);
+    }
+
+    :where(a, .btn):focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 3px;
+    }
+
+    /* ---- ROLL-анимация ---- */
+    .btn-label {
+      display: inline-flex;
+      white-space: pre;
+      line-height: 1;
+    }
+
+    .roll-c {
+      display: inline-block;
+      height: 1.2em;
+      line-height: 1.2em;
+      overflow: hidden;
+      vertical-align: top;
+      letter-spacing: normal;
+    }
+
+    .roll-c > span {
+      display: block;
+      height: 1.2em;
+      line-height: 1.2em;
+      transition: transform .45s var(--ease-out);
+      transition-delay: calc(var(--i) * 12ms);
+      will-change: transform;
+    }
+
+    .btn:hover .roll-c > span { transform: translateY(-100%); }
+
+    footer {
+      font-size: 12.5px;
+      color: var(--faint);
+      line-height: 1.7;
+      position: fixed;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    footer a { color: rgba(255, 255, 255, .52); transition: color .18s ease; }
+    footer a:hover { color: #fff; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn, .roll-c > span { transition: none; }
+    }
+
+    @media (max-width: 460px) {
+      .buttons { flex-direction: column; width: 100%; }
+      .btn { width: 100%; justify-content: center; }
+      footer { position: static; margin-top: 8px; }
+      body { justify-content: flex-start; padding-top: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <svg class="logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="exd" x1="2" y1="2" x2="62" y2="62" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#F5645C"></stop>
+        <stop offset="1" stop-color="#DF4B2F"></stop>
+      </linearGradient>
+    </defs>
+    <rect x="2" y="2" width="60" height="60" rx="19" fill="url(#exd)"></rect>
+    <rect x="13.5" y="13.5" width="37" height="37" rx="8" stroke="#fff" stroke-width="3"></rect>
+    <path d="M13.5 31.6h37" stroke="#fff" stroke-width="3"></path>
+    <path d="M26.5 13.5v18.1" stroke="#fff" stroke-width="3" stroke-linecap="round"></path>
+  </svg>
+
+  <h1>exDesktop Linux</h1>
+
+  <p class="tagline">
+    The unofficial <b>exDesktop (Linux Port)</b> — an exteraGram client for PC,
+    built natively for Linux. Currently in development, <b>no releases yet</b> —
+    everything lives on GitHub and Telegram.
+  </p>
+
+  <div class="buttons">
+    <a class="btn btn-primary" href="https://github.com/furrybest/exdesktoplinux">
+      <span class="btn-label" aria-label="Download">Download</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M4 21h16"></path>
+      </svg>
+    </a>
+
+    <a class="btn btn-ghost" href="https://github.com/furrybest/exdesktoplinux">
+      <span class="btn-label" aria-label="GitHub">GitHub</span>
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+      </svg>
+    </a>
+
+    <a class="btn btn-ghost" href="https://t.me/kewana">
+      <span class="btn-label" aria-label="Telegram">Telegram</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9l20-7z"></path>
+      </svg>
+    </a>
+
+    <a class="btn btn-ghost" href="https://discord.com/users/catgirl_winter">
+      <span class="btn-label" aria-label="Discord">Discord</span>
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M20.32 4.37a19.8 19.8 0 0 0-4.88-1.52.07.07 0 0 0-.08.04c-.21.38-.45.87-.61 1.26a18.3 18.3 0 0 0-5.5 0 12.6 12.6 0 0 0-.62-1.26.08.08 0 0 0-.08-.04 19.7 19.7 0 0 0-4.88 1.52.07.07 0 0 0-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 0 0 .03.05 19.9 19.9 0 0 0 5.99 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.29 1.22-1.99a.08.08 0 0 0-.04-.11 13.1 13.1 0 0 1-1.87-.89.08.08 0 0 1-.01-.13l.37-.29a.07.07 0 0 1 .08-.01 14.2 14.2 0 0 0 12.06 0 .07.07 0 0 1 .08.01l.37.29a.08.08 0 0 1-.01.13c-.6.35-1.22.64-1.87.89a.08.08 0 0 0-.04.11c.36.7.77 1.36 1.22 1.99a.08.08 0 0 0 .08.03 19.8 19.8 0 0 0 6-3.03.08.08 0 0 0 .03-.05c.5-5.18-.84-9.67-3.55-13.66a.06.06 0 0 0-.03-.03ZM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42Zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42 0-1.33.95-2.42 2.15-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.95 2.42-2.16 2.42Z"></path>
+      </svg>
+    </a>
+
+    <a class="btn btn-ghost" href="https://funpay.com/users/13865061/">
+      <span class="btn-label" aria-label="FunPay">FunPay</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+        <circle cx="12" cy="12" r="2.5"></circle>
+        <path d="M6 12h.01M18 12h.01"></path>
+      </svg>
+    </a>
+  </div>
+
+  <footer>
+    Questions? <a href="https://t.me/kewana">t.me/kewana</a> &nbsp;·&nbsp; GPL-3.0 &nbsp;·&nbsp; © 2026 exDesktop Linux
+  </footer>
+
+  <script>
+    (function () {
+      var fine = matchMedia('(hover: hover) and (pointer: fine)');
+      var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+      // ---------- ROLL ----------
+      if (fine.matches && !reduced.matches) {
+        document.querySelectorAll('a.btn').forEach(function (btn) {
+          var label = btn.querySelector('.btn-label');
+          if (!label) return;
+          var text = label.textContent.trim();
+          label.textContent = '';
+          label.setAttribute('aria-label', text);
+          label.classList.add('roll');
+
+          Array.from(text).forEach(function (ch, i) {
+            var glyph = ch === ' ' ? '\u00A0' : ch;
+            var cell = document.createElement('span');
+            cell.className = 'roll-c';
+            cell.style.setProperty('--i', i);
+
+            var s1 = document.createElement('span');
+            s1.textContent = glyph;
+            var s2 = document.createElement('span');
+            s2.textContent = glyph;
+
+            cell.appendChild(s1);
+            cell.appendChild(s2);
+            label.appendChild(cell);
+          });
+        });
+      }
+
+      // ---------- MAGNETIC ----------
+      if (!fine.matches || reduced.matches) return;
+
+      var K = 260, C = 18, M = 0.6, STRENGTH = 0.3;
+      var magnets = [];
+      var last = 0, raf = 0;
+
+      document.querySelectorAll('.btn').forEach(function (btn) {
+        var m = { el: btn, x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 };
+        btn.classList.add('magnetic-live');
+        btn.addEventListener('pointerenter', function (e) {
+          if (e.pointerType === 'mouse') track(m, e);
+        });
+        btn.addEventListener('pointermove', function (e) {
+          if (e.pointerType === 'mouse') track(m, e);
+        });
+        btn.addEventListener('pointerleave', function () {
+          m.tx = 0;
+          m.ty = 0;
+        });
+        magnets.push(m);
+      });
+
+      function track(m, e) {
+        var r = m.el.getBoundingClientRect();
+        m.tx = (e.clientX - (r.left - m.x) - r.width / 2) * STRENGTH;
+        m.ty = (e.clientY - (r.top - m.y) - r.height / 2) * STRENGTH;
+        if (!raf) {
+          last = performance.now();
+          raf = requestAnimationFrame(tick);
+        }
+      }
+
+      function tick(t) {
+        var dt = Math.min((t - last) / 1000, 1 / 30) || 1 / 60;
+        last = t;
+        var busy = false;
+
+        magnets.forEach(function (m) {
+          var slack = Math.abs(m.tx - m.x) + Math.abs(m.ty - m.y);
+          var speed = Math.abs(m.vx) + Math.abs(m.vy);
+          if (slack < 0.01 && speed < 0.01) {
+            if (m.tx === 0 && m.ty === 0) {
+              m.x = m.y = m.vx = m.vy = 0;
+              m.el.style.transform = '';
+            }
+            return;
+          }
+          busy = true;
+          m.vx += ((K * (m.tx - m.x) - C * m.vx) / M) * dt;
+          m.vy += ((K * (m.ty - m.y) - C * m.vy) / M) * dt;
+          m.x += m.vx * dt;
+          m.y += m.vy * dt;
+          m.el.style.transform = 'translate3d(' + m.x.toFixed(2) + 'px,' + m.y.toFixed(2) + 'px,0)';
+        });
+
+        raf = busy ? requestAnimationFrame(tick) : 0;
+      }
+    })();
+  </script>
+</body>
+</html>
